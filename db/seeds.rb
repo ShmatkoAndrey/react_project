@@ -1,0 +1,2 @@
+10.times { User.create(email: Faker::Internet.email, password: 'qqqqqqqq', password_confirmation: 'qqqqqqqq') }
+50.times { Post.create(user_id: Random.new.rand(0..9), content: Faker::Hipster.paragraph) }

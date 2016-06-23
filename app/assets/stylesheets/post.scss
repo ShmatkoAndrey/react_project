@@ -1,0 +1,22 @@
+.posts {
+  margin-top: 30px;
+}
+
+.post {
+  padding: 30px;
+  margin-bottom: 10px;
+  color: inherit;
+  background-color: #eeeeee;
+  word-wrap: break-word;
+
+  .author {
+    color: #550f11
+  }
+}
+
+.post-form-block {
+  margin: 30px;
+  textarea {
+    width: 100%;
+  }
+}
