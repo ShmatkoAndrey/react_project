@@ -4,11 +4,21 @@ var PostBox = React.createClass({
         return {posts: this.props.posts}
     },
     webSocket: function() {
-        _this = this;
+        _this_create = this;
+        _this_destroy = this;
         var faye = new Faye.Client('http://' + window.location.hostname + ':9292/faye');
         faye.subscribe("/posts/create", function(data) {
-            var posts = _this.state.posts;
-            _this.setState({posts: [data].concat(posts)});
+            var posts = _this_create.state.posts;
+            _this_create.setState({posts: [data].concat(posts)});
+        });
+        faye.subscribe("/posts/destroy", function(data) {
+            var posts = _this_destroy.state.posts;
+            posts.forEach(function(e, i) {
+               if(posts[i].post.id == data.post.id) {
+                   posts.splice(i, 1);
+               }
+            });
+            _this_destroy.setState({posts: posts});
         });
     },
     render: function() {
@@ -18,7 +28,7 @@ var PostBox = React.createClass({
                     <PostForm  onPostSubmit = {this.handlePostSubmit}/>
                 </div>
                 <div className="col-md-4">
-                    <PostList posts = {this.state.posts} />
+                    <PostList posts = {this.state.posts} handlePostDelete = {this.handleDelete} />
                 </div>
             </div>
         )
@@ -29,6 +39,18 @@ var PostBox = React.createClass({
             dataType: 'json',
             type: 'POST',
             data: post,
+            success: function(data) {
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
+    },
+    handleDelete: function(id) {
+        $.ajax({
+            url: '/posts/' + id,
+            dataType: 'json',
+            type: 'DELETE',
             success: function(data) {
             }.bind(this),
             error: function(xhr, status, err) {
@@ -61,10 +83,11 @@ var PostList = React.createClass({
         return {posts: this.props.posts};
     },
     render: function() {
+        _this = this;
         var postsNode = this.props.posts.map(function(post) {
             return (
                 <div className="posts">
-                    <Post post = { post.post } user = { post.user }> </Post>
+                    <Post post = { post.post } user = { post.user } onPostDelete = {_this.handlePostDelete}> </Post>
                 </div>
             );
         });
@@ -73,6 +96,9 @@ var PostList = React.createClass({
               { postsNode }
           </div>
         );
+    },
+    handlePostDelete: function(id) {
+        this.props.handlePostDelete(id)
     }
 });
 
@@ -80,11 +106,15 @@ var Post = React.createClass({
     render: function() {
         return (
             <div className="post">
-                <div className="author"> {this.props.user.email} </div>
+                <div className="author-post"> {this.props.user.email} </div>
+                <div className="delete-post" onClick={this.handleDelete}>x</div>
                 <br />
                 {this.props.post.content}
             </div>
         );
+    },
+    handleDelete: function() {
+        this.props.onPostDelete(this.props.post.id)
     }
 });
 

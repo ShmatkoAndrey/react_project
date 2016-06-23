@@ -15,6 +15,12 @@ class PostsController < ApplicationController
     render json: { post: @post, user: get_user(@post)}
   end
 
+  def destroy
+    @post = Post.find(params[:id]).destroy
+    broadcast '/posts/destroy', { post: @post }
+    render json: { post: @post}
+  end
+
   private
 
   def post_params
