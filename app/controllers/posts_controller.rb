@@ -11,6 +11,7 @@ class PostsController < ApplicationController
 
   def create
     @post = user_signed_in? ? current_user.posts.create(post_params) : Post.create(post_params.merge(user_id: 1))
+    broadcast '/posts/create', { post: @post, user: get_user(@post)}
     render json: { post: @post, user: get_user(@post)}
   end
 

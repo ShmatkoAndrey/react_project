@@ -1,6 +1,15 @@
 var PostBox = React.createClass({
     getInitialState: function() {
+        this.webSocket();
         return {posts: this.props.posts}
+    },
+    webSocket: function() {
+        _this = this;
+        var faye = new Faye.Client('http://' + window.location.hostname + ':9292/faye');
+        faye.subscribe("/posts/create", function(data) {
+            var posts = _this.state.posts;
+            _this.setState({posts: [data].concat(posts)});
+        });
     },
     render: function() {
         return (
@@ -21,8 +30,6 @@ var PostBox = React.createClass({
             type: 'POST',
             data: post,
             success: function(data) {
-                var posts = this.state.posts;
-                this.setState({posts: [data].concat(posts)});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(status, err.toString());
