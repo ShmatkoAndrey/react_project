@@ -1,5 +1,5 @@
 Ruby 2.3.0
-Rails 5.1
+Rails 5.0.0.rc1
 
 ```console
 bundle install
