@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    @posts = Post.all.reverse.map {|p| {post: p, user: get_user(p)}}
+    @posts = Post.preload(:user).reverse.map {|p| {post: p, user: get_user(p)}}
     respond_to do |format|
       format.html { }
       format.json {render json: {posts: @posts}}
