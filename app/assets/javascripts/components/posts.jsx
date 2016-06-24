@@ -1,7 +1,7 @@
-var PostBox = React.createClass({
+var PostList = React.createClass({
     getInitialState: function() {
         this.webSocket();
-        return {posts: this.props.posts}
+        return {posts: this.props.posts};
     },
     webSocket: function() {
         _this_create = this;
@@ -14,80 +14,18 @@ var PostBox = React.createClass({
         faye.subscribe("/posts/destroy", function(data) {
             var posts = _this_destroy.state.posts;
             posts.forEach(function(e, i) {
-               if(posts[i].post.id == data.post.id) {
-                   posts.splice(i, 1);
-               }
+                if(posts[i].post.id == data.post.id) {
+                    posts.splice(i, 1);
+                }
             });
             _this_destroy.setState({posts: posts});
         });
     },
     render: function() {
-        return (
-            <div className="post-box">
-                <div className="col-md-3">
-                    <PostForm  onPostSubmit = {this.handlePostSubmit}/>
-                </div>
-                <div className="col-md-4">
-                    <PostList posts = {this.state.posts} handlePostDelete = {this.handleDelete} />
-                </div>
-            </div>
-        )
-    },
-    handlePostSubmit: function(post) {
-        $.ajax({
-            url: '/posts',
-            dataType: 'json',
-            type: 'POST',
-            data: post,
-            success: function(data) {
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
-            }.bind(this)
-        });
-    },
-    handleDelete: function(id) {
-        $.ajax({
-            url: '/posts/' + id,
-            dataType: 'json',
-            type: 'DELETE',
-            success: function(data) {
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
-            }.bind(this)
-        });
-    }
-    //loadCommentsFromServer: function() {
-    //    $.ajax({
-    //        url: 'posts',
-    //        type: 'GET',
-    //        dataType: 'json',
-    //        cache: false,
-    //        success: function(data) {
-    //            this.setState({posts: data});
-    //        }.bind(this),
-    //        error: function(xhr, status, err) {
-    //            console.error(status, err.toString());
-    //        }.bind(this)
-    //    });
-    //},
-    //componentDidMount: function() {
-    //    this.loadCommentsFromServer();
-    //    setInterval(this.loadCommentsFromServer, 500);
-    //}
-});
-
-var PostList = React.createClass({
-    getInitialState: function() {
-        return {posts: this.props.posts};
-    },
-    render: function() {
-        _this = this;
-        var postsNode = this.props.posts.map(function(post) {
+        var postsNode = this.state.posts.map(function(post) {
             return (
                 <div className="posts">
-                    <Post post = { post.post } user = { post.user } onPostDelete = {_this.handlePostDelete}> </Post>
+                    <Post post = { post.post } user = { post.user } > </Post>
                 </div>
             );
         });
@@ -96,9 +34,6 @@ var PostList = React.createClass({
               { postsNode }
           </div>
         );
-    },
-    handlePostDelete: function(id) {
-        this.props.handlePostDelete(id)
     }
 });
 
@@ -114,7 +49,16 @@ var Post = React.createClass({
         );
     },
     handleDelete: function() {
-        this.props.onPostDelete(this.props.post.id)
+        $.ajax({
+            url: '/posts/' + this.props.post.id,
+            dataType: 'json',
+            type: 'DELETE',
+            success: function(data) {
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
     }
 });
 
@@ -127,9 +71,20 @@ var PostForm = React.createClass({
     },
     handleSubmit: function(e) {
         e.preventDefault();
-        var content = this.state.content.trim();
-        if (!content) return;
-        this.props.onPostSubmit({content: content});
+        var data = {content: this.state.content.trim()};
+        if (!data.content) return;
+
+        $.ajax({
+            url: '/posts',
+            dataType: 'json',
+            type: 'POST',
+            data: data,
+            success: function(data) {
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
 
         this.setState({content: ''});
     },

@@ -1,2 +1,4 @@
-.row
-  = react_component 'PostBox', { posts: @posts }
+.col-md-3
+  = react_component 'PostForm'
+.col-md-4
+  = react_component 'PostList', { posts: @posts }
