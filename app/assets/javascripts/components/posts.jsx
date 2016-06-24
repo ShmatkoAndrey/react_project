@@ -88,17 +88,26 @@ var PostForm = React.createClass({
 
         this.setState({content: ''});
     },
+    componentDidMount: function() {
+        $('#textareaPost').keydown(function (e) {
+            if (!e.shiftKey && e.keyCode == 13) {
+                $('#submitPost').click();
+                e.preventDefault();
+            }
+        });
+    },
     render: function() {
        return (
            <div className="post-form-block">
-               <form className="postForm" onSubmit={this.handleSubmit}>
+               <form className="postForm" onSubmit={this.handleSubmit} >
                     <textarea
+                        id="textareaPost"
                         placeholder="Content"
                         rows="6"
                         value={this.state.content}
                         onChange={this.handleContentChange}
                     />
-                   <input type="submit" value="Post" />
+                   <input id="submitPost" type="submit" value="Post" />
                </form>
            </div>
        );
