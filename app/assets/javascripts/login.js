@@ -25,10 +25,8 @@ $(document).ready(function() {
                 password_confirmation: $('#register-form #password_confirmation').val()
             }},
             success: function(data) {
-                $('#post-form-main').show();
-                $('#user-info').show();
-                $('#login-form-main').hide();
                 current_user = data;
+                check_current_user();
             },
             error: function(xhr, status, err) {
                 console.error(status, err.toString());
@@ -45,10 +43,8 @@ $(document).ready(function() {
                 password: $('#login-form #password').val()
             }},
             success: function(data) {
-                $('#post-form-main').show();
-                $('#user-info').show();
-                $('#login-form-main').hide();
                 current_user = data;
+                check_current_user();
             },
             error: function(xhr, status, err) {
                 console.error(status, err.toString());
@@ -56,18 +52,17 @@ $(document).ready(function() {
         });
     });
 
-
+    $('#logout-submit').click(function(e) {
+        $.ajax({
+            url: "/users/sign_out",
+            method: "DELETE",
+            success: function(data) {
+                current_user = null;
+                check_current_user();
+            },
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }
+        });
+    });
 });
-
-
-
-
-//$.ajax({
-//    url: "/users/sign_out",
-//    method: "DELETE",
-//    success: function(data) {
-//    },
-//    error: function(xhr, status, err) {
-//        console.error(status, err.toString());
-//    }
-//});

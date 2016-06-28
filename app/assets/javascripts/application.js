@@ -34,14 +34,17 @@ $(document).ready(function() {
         error: function(xhr, status, err) {
             console.error(status, err.toString());
         }});
-    update_current_user();
+    check_current_user();
 });
 
-var update_current_user = function() {
+var check_current_user = function() {
     if(current_user != null) {
         $('#post-form-main').show();
         $('#user-info').show();
+        $('#login-form-main').hide();
     } else {
+        $('#post-form-main').hide();
+        $('#user-info').hide();
         $('#login-form-main').show();
     }
 };

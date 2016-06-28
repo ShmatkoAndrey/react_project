@@ -2,7 +2,7 @@ Enter - Отправка
 Shift + Enter - Новая строка
 .col-md-3
   #user-info
-
+    %input#logout-submit.form-control.btn.btn-danger{:name => "register-submit", :tabindex => "4", :type => "button", :value => "LogOut"}
   #post-form-main
     = react_component 'PostForm'
   #login-form-main
