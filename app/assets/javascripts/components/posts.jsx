@@ -1,7 +1,10 @@
+var postList;
+
 var PostList = React.createClass({
     getInitialState: function() {
         this.webSocket();
-        return {posts: this.props.posts};
+        postList = this;
+        return {posts: this.props.posts, current_user: current_user};
     },
     webSocket: function() {
         _this_create = this;
@@ -25,7 +28,7 @@ var PostList = React.createClass({
         var postsNode = this.state.posts.map(function(post) {
             return (
                 <div className="posts">
-                    <Post post = { post.post } user = { post.user } > </Post>
+                    <Post post = { post.post } user = { post.user } current_user = {current_user}> </Post>
                 </div>
             );
         });
@@ -39,10 +42,13 @@ var PostList = React.createClass({
 
 var Post = React.createClass({
     render: function() {
+        var delete_button;
+        if(this.props.current_user != null && this.props.current_user.id == this.props.user.id)
+            delete_button = <div className="delete-post" onClick={this.handleDelete}>x</div>;
         return (
             <div className="post">
                 <div className="author-post"> {this.props.user.email} </div>
-                <div className="delete-post" onClick={this.handleDelete}>x</div>
+                {delete_button}
                 <br />
                 {this.props.post.content}
             </div>

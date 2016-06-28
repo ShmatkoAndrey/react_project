@@ -1,5 +1,3 @@
-Enter - Отправка
-Shift + Enter - Новая строка
 .col-md-3
   #user-info
     %input#logout-submit.form-control.btn.btn-danger{:name => "register-submit", :tabindex => "4", :type => "button", :value => "LogOut"}
@@ -9,3 +7,5 @@ Shift + Enter - Новая строка
     = render 'users/login'
 .col-md-5
   = react_component 'PostList', { posts: @posts }
+.col-md-4
+  Enter - Отправка; Shift + Enter - Новая строка

@@ -1,4 +1,20 @@
-$(document).ready(function() {
+var check_current_user = function() {
+    if (current_user != null) {
+        $('#post-form-main').show();
+        $('#user-info').show();
+        $('#login-form-main').hide();
+    } else {
+        $('#post-form-main').hide();
+        $('#user-info').hide();
+        $('#login-form-main').show();
+    }
+   if(postList) {
+       if (current_user) {postList.setState({current_user: current_user });}
+       else {postList.setState({current_user: null});}
+   }
+};
+
+$(function() {
 
     $('#login-form-link').click(function(e) {
         $("#login-form").delay(100).fadeIn(100);
@@ -25,7 +41,7 @@ $(document).ready(function() {
                 password_confirmation: $('#register-form #password_confirmation').val()
             }},
             success: function(data) {
-                current_user = data;
+                current_user = data.current_user;
                 check_current_user();
             },
             error: function(xhr, status, err) {
@@ -43,7 +59,7 @@ $(document).ready(function() {
                 password: $('#login-form #password').val()
             }},
             success: function(data) {
-                current_user = data;
+                current_user = data.current_user;
                 check_current_user();
             },
             error: function(xhr, status, err) {

@@ -9,15 +9,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource.persisted?
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
-        render json: resource
+        render json: {current_user: resource}
       else
         expire_data_after_sign_in!
-        render json: resource
+        render json: {current_user: resource}
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render json: resource
+      render json: {current_user: resource}
     end
   end
 
