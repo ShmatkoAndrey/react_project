@@ -1,6 +1,11 @@
 Enter - Отправка
 Shift + Enter - Новая строка
 .col-md-3
-  = react_component 'PostForm'
+  #user-info
+
+  #post-form-main
+    = react_component 'PostForm'
+  #login-form-main
+    = render 'users/login'
 .col-md-5
   = react_component 'PostList', { posts: @posts }
