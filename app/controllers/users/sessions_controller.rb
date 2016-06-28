@@ -10,7 +10,9 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def destroy
-    super
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    yield if block_given?
+    render json: {signed_out: signed_out}
   end
 
   def get_current_user
