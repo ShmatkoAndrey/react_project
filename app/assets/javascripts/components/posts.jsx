@@ -3,34 +3,32 @@ var PostList = React.createClass({
     getInitialState: function() {
         this.webSocket();
         postList = this;
-        return {posts: this.props.posts};
+        return {posts: this.props.posts, current_user: this.props.current_user};
     },
     webSocket: function() {
-        _this_create = this;
-        _this_destroy = this;
         var faye = new Faye.Client('http://' + window.location.hostname + ':9292/faye');
         faye.subscribe("/posts/create", function(data) {
-            var posts = _this_create.state.posts;
-            _this_create.setState({posts: [data].concat(posts)});
-        });
+            var posts = this.state.posts;
+            this.setState({posts: [data].concat(posts)});
+        }.bind(this));
         faye.subscribe("/posts/destroy", function(data) {
-            var posts = _this_destroy.state.posts;
+            var posts = this.state.posts;
             posts.forEach(function(e, i) {
                 if(posts[i].post.id == data.post.id) {
                     posts.splice(i, 1);
                 }
             });
-            _this_destroy.setState({posts: posts});
-        });
+            this.setState({posts: posts});
+        }.bind(this));
     },
     render: function() {
         var postsNode = this.state.posts.map(function(post) {
             return (
                 <div className="posts">
-                    <Post post = { post.post } user = { post.user } > </Post>
+                    <Post post = { post.post } user = { post.user } current_user = {this.props.current_user}> </Post>
                 </div>
             );
-        });
+        }.bind(this));
         return (
           <div>
               { postsNode }
@@ -42,7 +40,7 @@ var PostList = React.createClass({
 var Post = React.createClass({
     render: function() {
         var delete_button;
-        if(current_user != null && current_user.id == this.props.user.id)
+        if(this.props.current_user != null && this.props.current_user.id == this.props.user.id)
             delete_button = <div className="delete-post" onClick={this.handleDelete}>x</div>;
         return (
             <div className="post">
