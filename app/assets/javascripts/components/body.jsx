@@ -10,7 +10,7 @@ var BodyBox = React.createClass({
         return (
             <div>
                 <div className="col-md-3" >
-                    {current_user != null ? <div id="user-info">  </div> : ''}
+                    {current_user != null ? <div id="user-info"> <UserInfo set_current_user_ui = { this.set_current_user } /> </div> : ''}
                     {current_user != null ? <div id="post-form-main"> <PostForm /> </div> : ''}
                     {current_user == null ?
                         <div id="login-form-main">

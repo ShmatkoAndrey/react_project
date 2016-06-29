@@ -1,8 +1,6 @@
-var postList;
 var PostList = React.createClass({
     getInitialState: function() {
         this.webSocket();
-        postList = this;
         return {posts: this.props.posts, current_user: this.props.current_user};
     },
     webSocket: function() {
