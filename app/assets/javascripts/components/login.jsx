@@ -5,13 +5,13 @@ var LoginRegBox = React.createClass({
     set_current_user: function(current_user) {
         this.props.set_current_user_lb(current_user)
     },
-    switchLoginReg1: function(flag) {
+    switchLoginReg_sw: function(flag) {
         this.setState({login_red_switch: flag});
     },
    render: function() {
         return (
             <div>
-                <LoginRegSwitch switchLoginReg={this.switchLoginReg1} />
+                <LoginRegSwitch switchLoginReg={this.switchLoginReg_sw} />
                 <div class="panel-body">
                     <div class="col-lg-12">
                         { this.state.login_red_switch ? <Login change_current_user = {this.set_current_user} /> : <Registration /> }
@@ -23,10 +23,16 @@ var LoginRegBox = React.createClass({
 });
 
 var LoginRegSwitch = React.createClass({
-    handleSwitchLogin: function() {
+    handleSwitchLogin: function(e) {
+        e.preventDefault();
+        $(this.reg_a).removeClass('active');
+        $(this.login_a).addClass('active');
         this.props.switchLoginReg(true)
     },
-    handleSwitchReg: function() {
+    handleSwitchReg: function(e) {
+        e.preventDefault();
+        $(this.login_a).removeClass('active');
+        $(this.reg_a).addClass('active');
         this.props.switchLoginReg(false)
     },
     render: function() {
@@ -34,10 +40,10 @@ var LoginRegSwitch = React.createClass({
             <div className="panel panel-login">
                 <div className="panel-heading">
                     <div className="col-xs-6">
-                        <a className="active" id="login-form-link" onClick={this.handleSwitchLogin}>Login</a>
+                        <a className="active" id="login-form-link" onClick={this.handleSwitchLogin} ref={(c) => this.login_a = c} >Login</a>
                     </div>
                     <div className="col-xs-6">
-                        <a id="register-form-link" onClick={this.handleSwitchReg}>Register</a>
+                        <a id="register-form-link" onClick={this.handleSwitchReg} ref={(c) => this.reg_a = c}>Register</a>
                     </div>
                 </div>
                 <hr/>
