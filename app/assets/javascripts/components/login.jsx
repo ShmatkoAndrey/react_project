@@ -10,12 +10,10 @@ var LoginRegBox = React.createClass({
     },
    render: function() {
         return (
-            <div>
+            <div id="login-box">
                 <LoginRegSwitch switchLoginReg={this.switchLoginReg_sw} />
-                <div class="panel-body">
-                    <div class="col-lg-12">
-                        { this.state.login_red_switch ? <Login change_current_user = {this.set_current_user} /> : <Registration /> }
-                    </div>
+                <div className="panel-body">
+                    { this.state.login_red_switch ? <Login change_current_user = {this.set_current_user} /> : <Registration /> }
                 </div>
             </div>
         )
@@ -46,7 +44,6 @@ var LoginRegSwitch = React.createClass({
                         <a id="register-form-link" onClick={this.handleSwitchReg} ref={(c) => this.reg_a = c}>Register</a>
                     </div>
                 </div>
-                <hr/>
             </div>
         )
     }
@@ -90,14 +87,16 @@ var Login = React.createClass({
                     <input className="form-control" id="password" placeholder="Password"  type="password"
                            value = {this.state.password} onChange={this.handlePassword} />
                 </div>
-                <div className="form-group text-center">
-                    <input id="remember" type="checkbox" />
-                    <label for="remember">Remember Me</label>
+
+                <div className="form-group">
+                    <label className="custom-check">
+                        <input type="checkbox" name="onOff" />
+                        <i> </i>
+                        <span> </span>
+                    </label>
                 </div>
                 <div className="form-group">
-                    <div className="col-sm-6 col-sm-offset-3">
-                        <input className="form-control btn btn-login" id="login-submit" name="login-submit" type="submit" value="Log In" />
-                    </div>
+                    <input className="form-control btn btn-login" id="login-submit" name="login-submit" type="submit" value="Log In" />
                 </div>
             </form>
 
@@ -152,9 +151,9 @@ var Registration = React.createClass({
                            value = {this.state.password_confirmation} onChange={this.handlePasswordConfirm} />
                 </div>
                 <div className="form-group">
-                    <div className="col-sm-6 col-sm-offset-3">
+
                         <input className="form-control btn btn-register" id="register-submit" name="register-submit" type="submit" value="Register Now" />
-                    </div>
+
                 </div>
             </form>
 
