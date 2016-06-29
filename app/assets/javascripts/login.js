@@ -9,8 +9,7 @@ var check_current_user = function() {
         $('#login-form-main').show();
     }
    if(postList) {
-       if (current_user) {postList.setState({current_user: current_user });}
-       else {postList.setState({current_user: null});}
+       postList.forceUpdate();
    }
 };
 

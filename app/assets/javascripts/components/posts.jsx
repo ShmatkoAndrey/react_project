@@ -1,10 +1,9 @@
 var postList;
-
 var PostList = React.createClass({
     getInitialState: function() {
         this.webSocket();
         postList = this;
-        return {posts: this.props.posts, current_user: current_user};
+        return {posts: this.props.posts};
     },
     webSocket: function() {
         _this_create = this;
@@ -28,7 +27,7 @@ var PostList = React.createClass({
         var postsNode = this.state.posts.map(function(post) {
             return (
                 <div className="posts">
-                    <Post post = { post.post } user = { post.user } current_user = {current_user}> </Post>
+                    <Post post = { post.post } user = { post.user } > </Post>
                 </div>
             );
         });
@@ -43,7 +42,7 @@ var PostList = React.createClass({
 var Post = React.createClass({
     render: function() {
         var delete_button;
-        if(this.props.current_user != null && this.props.current_user.id == this.props.user.id)
+        if(current_user != null && current_user.id == this.props.user.id)
             delete_button = <div className="delete-post" onClick={this.handleDelete}>x</div>;
         return (
             <div className="post">
@@ -70,14 +69,17 @@ var Post = React.createClass({
 
 var PostForm = React.createClass({
     getInitialState: function() {
-        return {content: ''}
+        return {content: '', anonim: false}
     },
     handleContentChange: function(e) {
         this.setState({content: e.target.value});
     },
+    handleAnonimChange: function() {
+        this.setState({anonim: !this.state.anonim});
+    },
     handleSubmit: function(e) {
         e.preventDefault();
-        var data = {content: this.state.content.trim()};
+        var data = {content: this.state.content.trim(), anonim: this.state.anonim};
         if (!data.content) return;
 
         $.ajax({
@@ -106,14 +108,15 @@ var PostForm = React.createClass({
        return (
            <div className="post-form-block">
                <form className="postForm" onSubmit={this.handleSubmit} >
-                    <textarea
+                   <input type="checkbox" onChange={this.handleAnonimChange} /> Anonim (Не сохраняет в БД)
+                   <textarea
                         id="textareaPost"
                         placeholder="Content"
                         rows="6"
                         value={this.state.content}
                         onChange={this.handleContentChange}
                     />
-                   <input id="submitPost" type="submit" value="Post" />
+                   <input id="submitPost" type="submit" value="Post"/>
                </form>
            </div>
        );

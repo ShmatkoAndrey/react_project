@@ -10,7 +10,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = user_signed_in? ? current_user.posts.create(post_params) : Post.create(post_params.merge(user_id: 1))
+    @post = current_user.posts.build(post_params)
+    @post.save! unless params[:anonim] == 'true'
     broadcast '/posts/create', { post: @post, user: get_user(@post)}
     render json: { post: @post, user: get_user(@post)}
   end
