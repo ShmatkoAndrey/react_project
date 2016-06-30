@@ -30,7 +30,7 @@ class PostsController < ApplicationController
 
   def get_user(post)
     u = post.user
-    {email: u.email, id: u.id}
+    {username: u.username, id: u.id}
   end
 
 end

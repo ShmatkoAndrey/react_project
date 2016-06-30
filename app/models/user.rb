@@ -5,4 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :posts, dependent: :destroy
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
+  end
+
 end

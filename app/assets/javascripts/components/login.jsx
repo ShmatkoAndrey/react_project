@@ -51,10 +51,10 @@ var LoginRegSwitch = React.createClass({
 
 var Login = React.createClass({
     getInitialState: function() {
-        return {email: '', password: ''}
+        return {username: '', password: ''}
     },
-    handleEmail: function(e) {
-        this.setState({email: e.target.value});
+    handleUsername: function(e) {
+        this.setState({username: e.target.value});
     },
     handlePassword: function(e){
         this.setState({password: e.target.value});
@@ -65,7 +65,7 @@ var Login = React.createClass({
             url: "/users/sign_in",
             method: "POST",
             data: {user: {
-                email: this.state.email,
+                username: this.state.username,
                 password: this.state.password
             }},
             success: function(data) {
@@ -80,8 +80,8 @@ var Login = React.createClass({
         return (
             <form id="login-form" role="form" onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <input className="form-control" id="email" placeholder="Email" type="text"
-                           value = {this.state.email} onChange={this.handleEmail} />
+                    <input className="form-control" id="username" placeholder="Username" type="username"
+                           value = {this.state.username} onChange={this.handleUsername} />
                 </div>
                 <div className="form-group">
                     <input className="form-control" id="password" placeholder="Password"  type="password"
@@ -106,10 +106,10 @@ var Login = React.createClass({
 
 var Registration = React.createClass({
     getInitialState: function() {
-        return {email: '', password: '', password_confirmation: ''}
+        return {username: '', password: '', password_confirmation: ''}
     },
-    handleEmail: function(e) {
-        this.setState({email: e.target.value});
+    handleUsername: function(e) {
+        this.setState({username: e.target.value});
     },
     handlePassword: function(e){
         this.setState({password: e.target.value});
@@ -123,7 +123,7 @@ var Registration = React.createClass({
             url: "/users",
             method: "POST",
             data:{ user: {
-                email: this.state.email,
+                username: this.state.username,
                 password: this.state.password,
                 password_confirmation: this.state.password_confirmation
             }},
@@ -139,8 +139,8 @@ var Registration = React.createClass({
         return (
             <form id="register-form" role="form" onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <input className="form-control" id="email" name="email" placeholder="Email" tabindex="1" type="email"
-                           value = {this.state.email} onChange={this.handleEmail} />
+                    <input className="form-control" id="username" name="username" placeholder="Username" tabindex="1" type="username"
+                           value = {this.state.username} onChange={this.handleUsername} />
                 </div>
                 <div className="form-group">
                     <input className="form-control" id="password" name="password" placeholder="Password" tabindex="2" type="password"

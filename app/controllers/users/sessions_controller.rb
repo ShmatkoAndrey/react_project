@@ -19,4 +19,9 @@ class Users::SessionsController < Devise::SessionsController
     render json: {current_user: current_user}
   end
 
+  protected
+
+  def sign_in_params
+    params.require(:user).permit(:username, :password, :remember_me)
+  end
 end

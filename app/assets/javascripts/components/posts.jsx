@@ -42,7 +42,7 @@ var Post = React.createClass({
             delete_button = <div className="delete-post" onClick={this.handleDelete}>x</div>;
         return (
             <div className="post">
-                <div className="author-post"> {this.props.user.email} </div>
+                <div className="author-post"> {this.props.user.username} </div>
                 {delete_button}
                 <br />
                 {this.props.post.content}
