@@ -6,7 +6,7 @@
 }
 .panel-login>.panel-heading {
   color: #00415d;
-  background-color: #fff;
+  //background-color: #fff;
   border-color: #fff;
   text-align:center;
   padding-bottom: 35px;
@@ -98,23 +98,6 @@
 }
 
 //-------------------- [ my style ] --------------------
-@mixin flexbox() {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-@mixin justify_content($values) {
-  -webkit-justify-content: $values;
-  justify-content: $values;
-}
-
-@mixin align-items($values){
-  -webkit-align-items: $values;
-  align-items: $values;
-}
 
 #login-form-main{
   position: absolute;
@@ -122,16 +105,21 @@
   width: 100%;
   z-index: 1;
   background-color: black ;
+  background-image: url("miami_back/1.jpg");
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:cover;
 
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 
+  @include flexbox();
   @include justify_content(center);
   @include align-items(center);
 
   #login-box{
     width: 80%;
+    background-color: rgba(0, 255, 255, 0.3);
+    padding: 10px;
+
 
     .panel-body{
       padding: 0;

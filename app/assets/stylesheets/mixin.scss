@@ -1,0 +1,52 @@
+//-------------------- [ flexbox ] --------------------
+
+@mixin flexbox() {
+  display: -webkit-box;           /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;              /* OLD - Firefox 19- (doesn't work very well) */
+  display: -ms-flexbox;           /* TWEENER - IE 10 */
+  display: -webkit-flex;          /* NEW - Chrome */
+  display: flex;                  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+@mixin justify_content($values) {
+  -webkit-justify-content: $values;
+  justify-content: $values;
+}
+
+@mixin align-items($values){
+  -webkit-align-items: $values;
+  align-items: $values;
+}
+
+//-------------------- [ width mixin ] --------------------
+
+@mixin respond-to($media) {
+  @if $media == extra-small-screen { // -------------------- using
+    /* styles for browsers less than 330px; */
+    @media only screen and (max-width: 330px) { @content; }
+  }
+  @else if $media == small-screen {  // -------------------- using
+    /* styles for browsers smaller than 500px; */
+    @media only screen and (max-width: 500px) { @content; }
+  }
+  @else if $media == semi-small-screen {  // -------------------- using
+    /* styles for browsers smaller than 767px; */
+    @media only screen and (max-width: 767px) { @content; }
+  }
+  @else if $media == medium-small-screen {  // -------------------- using
+    /* styles for browsers smaller than 1000px; */
+    @media only screen and (max-width: 1000px) { @content; }
+  }
+  @else if $media == medium-screen { // -------------------- using
+    /* styles for browsers smaller than 1359px; */
+    @media only screen and (max-width: 1359px) { @content; }
+  }
+  @else if $media == large-screen {  // -------------------- using
+    /* styles for browsers larger than 1360px; */
+    @media only screen and (min-width: 1360px) { @content; }
+  }
+  @else if $media == map-list {  // -------------------- using
+    /* styles for browsers larger than 1000px; */
+    @media only screen and (min-width: 1000px) { @content; }
+  }
+}

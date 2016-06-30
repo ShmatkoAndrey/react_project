@@ -89,22 +89,22 @@ var Login = React.createClass({
         return (
             <form id="login-form" role="form" onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <input className="form-control" id="username" placeholder="Username" type="username"
+                    <input className="" id="username" placeholder="Username" type="username"
                            value = {this.state.username} onChange={this.handleUsername} />
                 </div>
                 <div className="form-group">
-                    <input className="form-control" id="password" placeholder="Password"  type="password"
+                    <input className="" id="password" placeholder="Password"  type="password"
                            value = {this.state.password} onChange={this.handlePassword} />
                 </div>
 
-                <div className="form-group">
+                <div className="">
                     <label className="custom-check">
                         <input type="checkbox" name="onOff" onClick={this.handleRemember} />
                         <i> </i>
                         <span> </span>
                     </label>
                 </div>
-                <div className="form-group">
+                <div className="">
                     <input className="form-control btn btn-login" id="login-submit" name="login-submit" type="submit" value="Log In" />
                 </div>
             </form>
