@@ -19,9 +19,8 @@ var BodyBox = React.createClass({
                     {current_user != null ? <div id="post-form-main"> <PostForm /> </div> : ''}
 
                 </div>
-                <div className="col-md-5">
-                    <PostList posts={posts} current_user = {current_user} />
-                </div>
+                {current_user != null ? <div className="col-md-5"> <PostList posts={posts} current_user = {current_user} /> </div> : ''}
+
             </div>
         )
     }
