@@ -3,10 +3,14 @@ class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
   def create
-    self.resource = warden.authenticate!(auth_options)
-    sign_in(resource_name, resource)
-    yield resource if block_given?
-    render json: {current_user: resource}
+    self.resource = warden.authenticate(auth_options)
+    if self.resource.nil?
+      render json: {errors: 'Incorrect username or password!'}
+    else
+      sign_in(resource_name, resource)
+      yield resource if block_given?
+      render json: {current_user: resource}
+    end
   end
 
   def destroy

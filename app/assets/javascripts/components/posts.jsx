@@ -84,9 +84,9 @@ var PostForm = React.createClass({
             type: 'POST',
             data: data,
             success: function(data) {
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
+                if(data.errors) {
+                    console.log(data.errors);
+                }
             }.bind(this)
         });
 

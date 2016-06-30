@@ -11,9 +11,16 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    @post.save! unless params[:anonim] == 'true'
-    broadcast '/posts/create', { post: @post, user: get_user(@post)}
-    render json: { post: @post, user: get_user(@post)}
+    if params[:anonim] == 'false' && @post.save
+      puts "1 #{@post.errors.blank?}"
+      puts "1 #{@post.errors}"
+      broadcast '/posts/create', { post: @post, user: get_user(@post)}
+      render json: { post: @post, user: get_user(@post)}
+    else
+      puts "2 #{@post.errors.blank?}"
+      puts "2 #{@post.errors}"
+      render json: { errors: @post.errors.full_messages}
+    end
   end
 
   def destroy

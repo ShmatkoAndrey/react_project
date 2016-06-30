@@ -13,7 +13,11 @@ var LoginRegBox = React.createClass({
             <div id="login-box">
                 <LoginRegSwitch switchLoginReg={this.switchLoginReg_sw} />
                 <div className="panel-body">
-                    { this.state.login_red_switch ? <Login change_current_user = {this.set_current_user} /> : <Registration /> }
+                    { this.state.login_red_switch ?
+                        <Login change_current_user = {this.set_current_user} />
+                        :
+                        <Registration change_current_user = {this.set_current_user} />
+                    }
                 </div>
             </div>
         )
@@ -69,11 +73,12 @@ var Login = React.createClass({
                 password: this.state.password
             }},
             success: function(data) {
-                this.props.change_current_user(data.current_user);
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
-            }
+                if(data.errors) {
+                    console.log(data.errors);
+                } else {
+                    this.props.change_current_user(data.current_user);
+                }
+            }.bind(this)
         });
     },
     render: function() {
@@ -128,11 +133,12 @@ var Registration = React.createClass({
                 password_confirmation: this.state.password_confirmation
             }},
             success: function(data) {
-                this.props.change_current_user(data.current_user);
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
-            }
+                if(data.errors){
+                    console.log(data.errors)
+                }else {
+                    this.props.change_current_user(data.current_user);
+                }
+            }.bind(this)
         });
     },
     render: function() {
