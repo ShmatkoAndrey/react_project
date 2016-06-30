@@ -6,7 +6,7 @@ var UserInfo = React.createClass({
             url: "/users/sign_out",
             method: "DELETE",
             success: function(data) {
-                this.props.set_current_user_ui(null)
+                this.props.setCurrentUser_ui(null)
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(status, err.toString());

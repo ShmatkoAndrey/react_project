@@ -3,7 +3,7 @@ var LoginRegBox = React.createClass({
         return { login_red_switch: true };
     },
     set_current_user: function(current_user) {
-        this.props.set_current_user_lb(current_user)
+        this.props.setCurrentUser_lb(current_user)
     },
     switchLoginReg_sw: function(flag) {
         this.setState({login_red_switch: flag});
