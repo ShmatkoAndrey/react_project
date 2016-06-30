@@ -55,13 +55,16 @@ var LoginRegSwitch = React.createClass({
 
 var Login = React.createClass({
     getInitialState: function() {
-        return {username: '', password: ''}
+        return {username: '', password: '', remember_me: false}
     },
     handleUsername: function(e) {
         this.setState({username: e.target.value});
     },
     handlePassword: function(e){
         this.setState({password: e.target.value});
+    },
+    handleRemember: function(e) {
+        this.setState({remember_me: !this.state.remember_me});
     },
     handleSubmit: function(e) {
         e.preventDefault();
@@ -70,7 +73,8 @@ var Login = React.createClass({
             method: "POST",
             data: {user: {
                 username: this.state.username,
-                password: this.state.password
+                password: this.state.password,
+                remember_me: this.state.remember_me
             }},
             success: function(data) {
                 if(data.errors) {
@@ -95,7 +99,7 @@ var Login = React.createClass({
 
                 <div className="form-group">
                     <label className="custom-check">
-                        <input type="checkbox" name="onOff" />
+                        <input type="checkbox" name="onOff" onClick={this.handleRemember} />
                         <i> </i>
                         <span> </span>
                     </label>
