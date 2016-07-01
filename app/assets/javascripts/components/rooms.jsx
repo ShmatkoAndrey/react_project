@@ -1,0 +1,3 @@
+//var RoomsBox = React.createClass({
+//
+//});

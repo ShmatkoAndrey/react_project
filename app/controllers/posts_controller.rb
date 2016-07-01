@@ -2,10 +2,11 @@ class PostsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
+    cnt_load = 10
     if params[:start]
-      @posts = Post.preload(:user).order(created_at: :desc).where('id < ?', params[:start]).limit(params[:cnt]).map {|post| {post: post, user: get_user(post)}}
+      @posts = Post.preload(:user).order(created_at: :desc).where('id < ?', params[:start]).limit(cnt_load).map {|post| {post: post, user: get_user(post)}}
     else
-      @posts = Post.preload(:user).order(created_at: :desc).limit(10).map {|p| {post: p, user: get_user(p)}}
+      @posts = Post.preload(:user).order(created_at: :desc).limit(cnt_load).map {|p| {post: p, user: get_user(p)}}
     end
 
     respond_to do |format|

@@ -1,23 +1,15 @@
 var LoginRegBox = React.createClass({
-    getInitialState: function() {
-        return { login_red_switch: true };
-    },
-    set_current_user: function(current_user) {
-        this.props.setCurrentUser_lb(current_user)
-    },
-    switchLoginReg_sw: function(flag) {
-        this.setState({login_red_switch: flag});
-    },
+    getInitialState: function() { return { login_red_switch: true }; },
+    set_current_user: function(current_user) { this.props.setCurrentUser_lb(current_user) },
+    switchLoginReg_sw: function(flag) { this.setState({login_red_switch: flag}); },
    render: function() {
         return (
             <div id="login-box">
                 <LoginRegSwitch switchLoginReg={this.switchLoginReg_sw} />
                 <div className="panel-body">
                     { this.state.login_red_switch ?
-                        <Login change_current_user = {this.set_current_user} />
-                        :
-                        <Registration change_current_user = {this.set_current_user} />
-                    }
+                        <Login change_current_user = {this.set_current_user} /> :
+                        <Registration change_current_user = {this.set_current_user} /> }
                 </div>
             </div>
         )
@@ -27,14 +19,14 @@ var LoginRegBox = React.createClass({
 var LoginRegSwitch = React.createClass({
     handleSwitchLogin: function(e) {
         e.preventDefault();
-        $(this.reg_a).removeClass('active');
-        $(this.login_a).addClass('active');
+        $(this.refs.reg_a).removeClass('active');
+        $(this.refs.login_a).addClass('active');
         this.props.switchLoginReg(true)
     },
     handleSwitchReg: function(e) {
         e.preventDefault();
-        $(this.login_a).removeClass('active');
-        $(this.reg_a).addClass('active');
+        $(this.refs.login_a).removeClass('active');
+        $(this.refs.reg_a).addClass('active');
         this.props.switchLoginReg(false)
     },
     render: function() {
@@ -42,10 +34,10 @@ var LoginRegSwitch = React.createClass({
             <div className="panel panel-login">
                 <div className="panel-heading">
                     <div className="col-xs-6">
-                        <a className="active" id="login-form-link" onClick={this.handleSwitchLogin} ref={(c) => this.login_a = c} >Login</a>
+                        <a className="active" id="login-form-link" onClick={this.handleSwitchLogin} ref="login_a" >Login</a>
                     </div>
                     <div className="col-xs-6">
-                        <a id="register-form-link" onClick={this.handleSwitchReg} ref={(c) => this.reg_a = c}>Register</a>
+                        <a id="register-form-link" onClick={this.handleSwitchReg} ref="reg_a">Register</a>
                     </div>
                 </div>
             </div>
@@ -54,34 +46,22 @@ var LoginRegSwitch = React.createClass({
 });
 
 var Login = React.createClass({
-    getInitialState: function() {
-        return {username: '', password: '', remember_me: false}
-    },
-    handleUsername: function(e) {
-        this.setState({username: e.target.value});
-    },
-    handlePassword: function(e){
-        this.setState({password: e.target.value});
-    },
-    handleRemember: function(e) {
-        this.setState({remember_me: !this.state.remember_me});
-    },
+    getInitialState: function() { return {username: '', password: '', remember_me: false} },
+    handleUsername: function(e) { this.setState({username: e.target.value}); },
+    handlePassword: function(e){ this.setState({password: e.target.value}); },
+    handleRemember: function() { this.setState({remember_me: !this.state.remember_me}); },
     handleSubmit: function(e) {
         e.preventDefault();
         $.ajax({
-            url: "/users/sign_in",
-            method: "POST",
+            url: "/users/sign_in", method: "POST",
             data: {user: {
                 username: this.state.username,
                 password: this.state.password,
                 remember_me: this.state.remember_me
             }},
             success: function(data) {
-                if(data.errors) {
-                    console.log(data.errors);
-                } else {
-                    this.props.change_current_user(data.current_user);
-                }
+                if(data.errors) { console.log(data.errors); }
+                else { this.props.change_current_user(data.current_user); }
             }.bind(this)
         });
     },
@@ -89,7 +69,7 @@ var Login = React.createClass({
         return (
             <form id="login-form" role="form" onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <input className="" id="username" placeholder="Username" type="username"
+                    <input className="" id="username" placeholder="Username" type="login"
                            value = {this.state.username} onChange={this.handleUsername} />
                 </div>
                 <div className="form-group">
@@ -114,23 +94,14 @@ var Login = React.createClass({
 });
 
 var Registration = React.createClass({
-    getInitialState: function() {
-        return {username: '', password: '', password_confirmation: ''}
-    },
-    handleUsername: function(e) {
-        this.setState({username: e.target.value});
-    },
-    handlePassword: function(e){
-        this.setState({password: e.target.value});
-    },
-    handlePasswordConfirm(e){
-        this.setState({password_confirmation: e.target.value});
-    },
+    getInitialState: function() { return {username: '', password: '', password_confirmation: ''} },
+    handleUsername: function(e) { this.setState({username: e.target.value}); },
+    handlePassword: function(e){ this.setState({password: e.target.value}); },
+    handlePasswordConfirm(e){ this.setState({password_confirmation: e.target.value}); },
     handleSubmit: function(e) {
         e.preventDefault();
         $.ajax({
-            url: "/users",
-            method: "POST",
+            url: "/users", method: "POST",
             data:{ user: {
                 username: this.state.username,
                 password: this.state.password,
@@ -161,9 +132,7 @@ var Registration = React.createClass({
                            value = {this.state.password_confirmation} onChange={this.handlePasswordConfirm} />
                 </div>
                 <div className="form-group">
-
                         <input className="form-control btn btn-register" id="register-submit" name="register-submit" type="submit" value="Register Now" />
-
                 </div>
             </form>
 
