@@ -3,13 +3,11 @@ class PostsController < ApplicationController
 
   def index
     if params[:start]
-      start_id = params[:start].to_i
-      cnt = params[:cnt].to_i
-      # @posts = Post.preload(:user).order(created_at: :desc).limit(start + cnt)[start..start+cnt].map {|post| {post: post, user: get_user(post)}}
-      @posts = Post.preload(:user).order(created_at: :desc).where('id < ?', start_id).limit(cnt).map {|post| {post: post, user: get_user(post)}}
+      @posts = Post.preload(:user).order(created_at: :desc).where('id < ?', params[:start]).limit(params[:cnt]).map {|post| {post: post, user: get_user(post)}}
     else
       @posts = Post.preload(:user).order(created_at: :desc).limit(10).map {|p| {post: p, user: get_user(p)}}
     end
+
     respond_to do |format|
       format.html { }
       format.json {render json: {posts: @posts}}
