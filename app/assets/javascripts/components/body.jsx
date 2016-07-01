@@ -9,8 +9,8 @@ var BodyBox = React.createClass({
         this.setState({posts: posts})
     },
     scrollPosts: function() {
-        var cntLoad = 10; // Изменить в posts_controller
-        if(($(this.posts_box).scrollTop() >= $(this.posts_box)[0].scrollTopMax - 200) && !this.state.inProgressLoad) {
+        var cntLoad = 10;
+        if(($(this.posts_box).scrollTop() >= $(this.posts_box)[0].scrollHeight - $(this.posts_box)[0].clientHeight - 200) && !this.state.inProgressLoad) {
             $.ajax({
                 url: '/posts',
                 dataType: 'json',
