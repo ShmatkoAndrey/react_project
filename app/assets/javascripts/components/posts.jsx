@@ -4,7 +4,7 @@ var PostList = React.createClass({
         return {posts: this.props.posts, current_user: this.props.current_user};
     },
     webSocket: function() {
-        var faye = new Faye.Client('http://' + window.location.hostname + ':9292/faye');
+        var faye = new Faye.Client('http://socketmiamitalks.herokuapp.com/faye');
         faye.subscribe("/posts/create", function(data) {
             var posts = this.props.posts;
             this.props.setPosts_pl([data].concat(posts));

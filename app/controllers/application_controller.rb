@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def broadcast(channel, hash)
     message = {:channel => channel, :data => hash, :ext => {:auth_token => FAYE_TOKEN}}
-    uri = URI.parse("http://#{ request.host }:9292/faye")
+    uri = URI.parse('http://socketmiamitalks.herokuapp.com/faye')
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
   helper_method 'broadcast'
