@@ -21,7 +21,7 @@ var PostList = React.createClass({
     },
     render: function() {
         var postsNode = this.props.posts.map(function(post) {
-            return <Post key = {post.post.id} post = { post.post } user = { post.user } current_user = {this.props.current_user}> </Post>
+            return <Post post = { post.post } user = { post.user } current_user = {this.props.current_user}> </Post>
         }.bind(this));
         return (
           <div  className="posts">
