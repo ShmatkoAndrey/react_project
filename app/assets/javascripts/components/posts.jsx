@@ -1,24 +1,5 @@
 var PostList = React.createClass({
-    getInitialState: function() {
-        this.webSocket();
-        return {posts: this.props.posts, current_user: this.props.current_user};
-    },
-    webSocket: function() {
-        var faye = new Faye.Client('http://socketmiamitalks.herokuapp.com/faye');
-        faye.subscribe("/posts/create", function(data) {
-            var posts = this.props.posts;
-            this.props.setPosts_pl([data].concat(posts));
-        }.bind(this));
-        faye.subscribe("/posts/destroy", function(data) {
-            var posts = this.props.posts;
-            posts.forEach(function(e, i) {
-                if(posts[i].post.id == data.post.id) {
-                    posts.splice(i, 1);
-                }
-            });
-            this.props.setPosts_pl(posts);
-        }.bind(this));
-    },
+    getInitialState: function() { return {posts: this.props.posts, current_user: this.props.current_user}; },
     render: function() {
         var postsNode = this.props.posts.map(function(post) {
             return <Post post = { post.post } user = { post.user } current_user = {this.props.current_user}> </Post>

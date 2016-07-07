@@ -1,5 +1,24 @@
 var BodyBox = React.createClass({
-    getInitialState: function() { return {posts: this.props.posts, current_user: this.props.current_user, inProgressLoad: false}; },
+    getInitialState: function() {
+        this.webSocket();
+        return {posts: this.props.posts, current_user: this.props.current_user, inProgressLoad: false};
+    },
+    webSocket: function() {
+        var faye = new Faye.Client('http://socketmiamitalks.herokuapp.com/faye');
+        faye.subscribe("/posts/create", function(data) {
+            var posts = this.state.posts;
+            this.setState({posts: [data].concat(posts)});
+        }.bind(this));
+        faye.subscribe("/posts/destroy", function(data) {
+            var posts = this.state.posts;
+            posts.forEach(function(e, i) {
+                if(posts[i].post.id == data.post.id) {
+                    posts.splice(i, 1);
+                }
+            });
+            this.setState({posts: posts})
+        }.bind(this));
+    },
     setCurrentUser: function(current_user) { this.setState({current_user: current_user}) },
     setPosts: function(posts) { this.setState({posts: posts}) },
     scrollPosts: function() {
