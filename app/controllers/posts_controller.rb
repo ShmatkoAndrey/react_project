@@ -4,13 +4,12 @@ class PostsController < ApplicationController
   def index
     cnt_load = 10
     if params[:start]
-      @posts = Post.preload(:user).order(created_at: :desc).where('id < ?', params[:start]).limit(cnt_load).map {|post| {post: post, user: get_user(post)}}
+      @posts = Post.where(room_id: params[:room]).preload(:user).order(created_at: :desc).where('id < ?', params[:start]).limit(cnt_load).map {|post| {post: post, user: get_user(post)}}
     else
-      @posts = Post.preload(:user).order(created_at: :desc).limit(cnt_load).map {|p| {post: p, user: get_user(p)}}
+      @posts = Post.where(room_id: params[:room]).preload(:user).order(created_at: :desc).limit(cnt_load).map {|p| {post: p, user: get_user(p)}}
     end
-
     respond_to do |format|
-      format.html { }
+      format.html {}
       format.json {render json: {posts: @posts}}
     end
   end
@@ -34,12 +33,12 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    {content: params[:content]}
+    { content: params[:content], room_id: params[:room] }
   end
 
   def get_user(post)
     u = post.user
-    {username: u.username, id: u.id}
+    { username: u.username, id: u.id }
   end
 
 end

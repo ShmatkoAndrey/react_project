@@ -4,7 +4,7 @@ var PostForm = React.createClass({
     handleAnonimChange: function() { this.setState({anonim: !this.state.anonim}); },
     handleSubmit: function(e) {
         e.preventDefault();
-        var data = { content: this.state.content.trim(), anonim: this.state.anonim };
+        var data = { content: this.state.content.trim(), anonim: this.state.anonim , room: this.props.room};
         if (data.content) {
             $.ajax({
                 url: '/posts', dataType: 'json', type: 'POST', data: data,

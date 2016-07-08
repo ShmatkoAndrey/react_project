@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :posts
+  resources :rooms
 
   root 'posts#index'
 end
