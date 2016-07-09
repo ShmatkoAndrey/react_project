@@ -3,11 +3,9 @@ var PostList = React.createClass({
         this.webSocket();
         return {posts: [], inProgressLoad: false};
     },
-    componentDidMount: function() { this.loadPost(); },
+    componentDidMount: function() { this.loadPosts(); },
     componentDidUpdate: function() {
-        if(this.state.posts[0] && this.state.posts[0].post.room_id != this.props.room) {
-            this.loadPost();
-        }
+        if(this.state.posts[0] && this.state.posts[0].post.room_id != this.props.room) { this.loadPosts(); }
     },
     webSocket: function() {
         var faye = new Faye.Client('http://socketmiamitalks.herokuapp.com/faye');
@@ -19,15 +17,13 @@ var PostList = React.createClass({
             if (this.props.room == data.post.room_id) {
                 var posts = this.state.posts;
                 posts.forEach(function (e, i) {
-                    if (posts[i].post.id == data.post.id) {
-                        posts.splice(i, 1);
-                    }
+                    if (posts[i].post.id == data.post.id) { posts.splice(i, 1); }
                 });
                 this.setState({posts: posts})
             }
         }.bind(this));
     },
-    loadPost: function() {
+    loadPosts: function() {
         $.ajax({
             url: '/posts', dataType: 'json', type: 'GET', async: false,
             data: {room: this.props.room},
@@ -83,11 +79,7 @@ var Post = React.createClass({
     handleDelete: function() {
         $.ajax({
             url: '/posts/' + this.props.post.id, dataType: 'json', type: 'DELETE',
-            success: function(data) {
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
-            }.bind(this)
+            error: function(xhr, status, err) { console.error(status, err.toString()); }.bind(this)
         });
     }
 });

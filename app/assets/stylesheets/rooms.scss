@@ -1,0 +1,17 @@
+li.room-name {
+  padding: 15px;
+  width: 100%;
+  border: 1px solid grey;
+  margin: 5px;
+  text-decoration: none;
+}
+li.room-name:hover {
+   background-color: magenta;
+}
+ul.room-list {
+  list-style-type: none;
+}
+
+.active-room {
+  background-color: aqua;
+}

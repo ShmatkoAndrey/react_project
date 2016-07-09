@@ -11,7 +11,7 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    {content: params[:content]}
+
   end
 
 end
